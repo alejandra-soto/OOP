@@ -20,7 +20,7 @@ import com.todo.repository.TaskRepository;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController 
-@RequestMapping("/todo")
+@RequestMapping("/")
 public class TaskController {
 	
 	@Autowired
