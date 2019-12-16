@@ -1,0 +1,18 @@
+<mat-card>
+  <form #listForm="ngForm" (ngSubmit)="onSubmit()">
+    <mat-card-header>
+      <mat-card-title><h3>Create Task for {{currentList.listId}}</h3></mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-form-field>
+        <input matInput placeholder="e.g. Go to McDonald's" required [(ngModel)]="task.taskTitle"
+        name="name" #name>
+      </mat-form-field>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" type="submit"
+              [disabled]="!listForm.valid">Save</button>
+    </mat-card-actions>
+  </form>
+</mat-card>
+
