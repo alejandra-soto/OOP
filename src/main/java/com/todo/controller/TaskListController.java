@@ -1,6 +1,8 @@
 package com.todo.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.todo.exception.ResourceNotFoundException;
+import com.todo.model.Task;
 import com.todo.model.TaskList;
 import com.todo.repository.TaskListRepository;
 
@@ -31,7 +34,33 @@ public class TaskListController {
 
     @GetMapping("/tasklist")
     public List <TaskList> getAllTaskLists() {
-        return taskListRepository.findAll();
+    	List <TaskList> tasks = taskListRepository.findAll();
+    	
+    	List<TaskList> tasksNew = new ArrayList<TaskList>();
+    	Iterator<TaskList> tlItr = tasks.iterator();
+    	while(tlItr.hasNext()) {
+    		TaskList tl = tlItr.next();
+    		
+    		TaskList tl1 = new TaskList();
+    		tl1.setId(tl.getId());
+    		tl1.setListTitle(tl.getListTitle());
+    		List<Task> newTasks = new ArrayList<Task>();
+    		Iterator<Task> itr = tl.getTasks().iterator();
+    		while(itr.hasNext()) {
+    			Task t = itr.next();
+    			Task newT = new Task();
+    			newT.setId(t.getId());
+    			newT.setTaskTitle(t.getTaskTitle());
+    			newT.setTaskList(null);
+    			newTasks.add(newT);
+     		}
+    		tl1.setTasks(newTasks);
+    		tasksNew.add(tl1);
+    	}
+    	
+    		
+
+        return tasksNew;
     }
 
     @GetMapping("/tasklist/{id}")
@@ -44,6 +73,7 @@ public class TaskListController {
 
     @PostMapping("/tasklist")
     public TaskList createTaskList(@Valid @RequestBody TaskList taskList) {
+    	System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         return taskListRepository.save(taskList);
     }
 

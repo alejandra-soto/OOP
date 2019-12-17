@@ -1,8 +1,8 @@
 package com.todo.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -18,28 +18,23 @@ import javax.validation.constraints.Size;
 @Table(name = "task_list")
 public class TaskList {
 	
-	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+	
 	private Long id;
-	
-	@NotNull
-	@Column(name = "list_title", nullable = false)
-	@Size(min = 2, message = "List title should be at least 2 characters", max=100)
     private String listTitle;
-	
-	@OneToMany(mappedBy = "taskList", 
-			fetch = FetchType.LAZY,
-			cascade = {CascadeType.ALL})
 	private List <Task> tasks;
  
     public TaskList() {
+    	this.tasks = new ArrayList<Task>();
     }
  
     public TaskList(String listTitle) {
-         this.listTitle = listTitle;
+    	this.tasks = new ArrayList<Task>();
+        this.listTitle = listTitle;
     }
  
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "list_id", unique = true, nullable = false)
     public Long getId() {
         return id;
     }
@@ -47,7 +42,9 @@ public class TaskList {
         this.id = id;
     }
  
-    
+    @NotNull
+	@Column(name = "list_title", nullable = false)
+	@Size(min = 2, message = "List title should be at least 2 characters", max=100)    
     public String getListTitle() {
         return listTitle;
     }
@@ -55,6 +52,8 @@ public class TaskList {
         this.listTitle = listTitle;
     }
     
+    @OneToMany(mappedBy = "taskList", 
+			fetch = FetchType.LAZY)
     public List <Task> getTasks() {
         return tasks;
     }
@@ -62,4 +61,9 @@ public class TaskList {
     public void setTasks(List <Task> tasks) {
         this.tasks = tasks;
     }
+    
+	/*
+	 * @Override public String toString() { StringBuffer sb = new StringBuffer();
+	 * for(Task t: tasks) { sb.append(t.getTaskTitle()); } return sb.toString(); }
+	 */
 }

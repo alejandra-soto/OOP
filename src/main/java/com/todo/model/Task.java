@@ -16,18 +16,9 @@ import javax.validation.constraints.Size;
 @Table(name = "task")
 public class Task {
 	
-	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+	
 	private Long id;
-	
-	@NotNull
-	@Size(min = 2, message = "Task title should be at least 2 characters", max=100)
-	@Column(name = "task_title", nullable = false)
     private String taskTitle;
-	
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "task_list_id", nullable = false)
     private TaskList taskList;
  
     public Task() {
@@ -38,13 +29,19 @@ public class Task {
          this.taskTitle = taskTitle;
     }
  
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     public Long getId() {
         return id;
     }
     public void setId(Long id) {
         this.id = id;
     }
- 
+
+    @NotNull
+	@Size(min = 2, message = "Task title should be at least 2 characters", max=100)
+	@Column(name = "task_title", nullable = false)
     public String getTaskTitle() {
         return taskTitle;
     }
@@ -52,6 +49,8 @@ public class Task {
         this.taskTitle = taskTitle;
     }
     
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "list_id", nullable = false)
     public TaskList getTaskList() {
     	return taskList;
     }

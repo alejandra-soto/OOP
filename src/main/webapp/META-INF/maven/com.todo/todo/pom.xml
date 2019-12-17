@@ -15,7 +15,7 @@
 	<description>Single Page Application for COMP586</description>
 
 	<properties>
-		<java.version>13</java.version>
+		<java.version>1.8</java.version>
 	</properties>
 
 	<dependencies>
@@ -112,6 +112,24 @@
 	                    </arguments>
 	                </configuration>
 	           </plugin> 
+	           <plugin> 
+        <artifactId>maven-resources-plugin</artifactId>     
+	    <executions>  
+               <execution>   
+                       <id>copy-resources</id>    
+                      <phase>validate</phase> 
+                         <goals><goal>copy-resources</goal></goals>             
+             			<configuration>                                 
+  						<outputDirectory>${project.build.directory}/classes/static/</outputDirectory >      
+                        <resources>    
+                      <resource>       
+                     <directory>../angular8-springboot-client/dist</directory> 
+                   </resource>   
+                 </resources>   
+              </configuration>        
+          </execution>   
+		       </executions> 
+		       </plugin>
 			</plugins>
 		</pluginManagement>
 		

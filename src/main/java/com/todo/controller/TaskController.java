@@ -1,6 +1,10 @@
 package com.todo.controller;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
+
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.todo.exception.ResourceNotFoundException;
 import com.todo.model.Task;
+import com.todo.model.TaskList;
 import com.todo.repository.TaskListRepository;
 import com.todo.repository.TaskRepository;
 
@@ -31,16 +36,71 @@ public class TaskController {
 
 	@GetMapping("/tasklist/{taskListId}/tasks")
     public List <Task> getAllTasksByTaskList(@PathVariable(value = "taskListId") Long taskListId) {
-        return taskRepository.findByTaskListId(taskListId);
+        //return taskRepository.findByTaskListId(taskListId);
+		List<Task> tasks = taskRepository.findByTaskListId(taskListId);
+		ArrayList<Task> arr = new ArrayList<>();
+		
+		Task rTask = new Task();
+		Iterator<Task> itr = tasks.iterator();
+		while(itr.hasNext()){
+			Task t = itr.next();
+			rTask.setId(t.getId());
+			rTask.setTaskTitle(t.getTaskTitle());
+			
+			TaskList tl = t.getTaskList();
+			
+			TaskList tl1 = new TaskList();
+			tl1.setId(tl.getId());
+			tl1.setListTitle(tl.getListTitle());
+			rTask.setTaskList(null);
+			arr.add(rTask);
+			}	
+		
+		System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+    	System.out.println(rTask.toString());
+    	return arr;
+    	
     }
 
     @PostMapping("/tasklist/{taskListId}/tasks")
     public Task createTask(@PathVariable(value = "taskListId") Long taskListId,
         @Valid @RequestBody Task task) throws ResourceNotFoundException {
-        return taskListRepository.findById(taskListId).map(taskList -> {
-            task.setTaskList(taskList);
-            return taskRepository.save(task);
-        }).orElseThrow(() -> new ResourceNotFoundException("task list not found"));
+    	
+    	System.out.println("In Creating Tassks");
+    	Task t = null;
+    	Optional<TaskList> taskList = taskListRepository.findById(taskListId);
+    	if(taskList == null) {
+    		throw new ResourceNotFoundException("tasklist not found ");
+    	} else {
+    		task.setTaskList(taskList.get());
+    		t= taskRepository.save(task);
+    	}
+    	
+    	
+
+    		Task rTask = new Task();
+    		
+    		rTask.setId(t.getId());
+    		rTask.setTaskTitle(t.getTaskTitle());
+    		
+    		TaskList tl = t.getTaskList();
+    		
+    		TaskList tl1 = new TaskList();
+    		tl1.setId(tl.getId());
+    		tl1.setListTitle(tl.getListTitle());
+    		rTask.setTaskList(null);
+    		
+    		
+    		System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+        	System.out.println(rTask.toString());
+    	
+    	return rTask;
+    	
+		/*
+		 * return taskListRepository.findById(taskListId).map(taskList -> {
+		 * task.setTaskList(taskList); return taskRepository.save(task);
+		 * }).orElseThrow(() -> new ResourceNotFoundException("task list not found"));
+		 */
     }
 
     @PutMapping("/tasklist/{taskListId}/tasks/{taskId}")
