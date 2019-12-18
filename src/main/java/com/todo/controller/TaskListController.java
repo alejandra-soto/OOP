@@ -23,7 +23,7 @@ import com.todo.model.Task;
 import com.todo.model.TaskList;
 import com.todo.repository.TaskListRepository;
 
-@CrossOrigin(origins = "http://localhost:4200")
+//@CrossOrigin(origins = "http://localhost:4200")
 @RestController 
 @RequestMapping("/")
 public class TaskListController {
@@ -34,13 +34,14 @@ public class TaskListController {
 
     @GetMapping("/tasklist")
     public List <TaskList> getAllTaskLists() {
+    	return taskListRepository.findAll();
+    	/*System.out.println("In Getting All Task Lists");
     	List <TaskList> tasks = taskListRepository.findAll();
     	
     	List<TaskList> tasksNew = new ArrayList<TaskList>();
     	Iterator<TaskList> tlItr = tasks.iterator();
     	while(tlItr.hasNext()) {
     		TaskList tl = tlItr.next();
-    		
     		TaskList tl1 = new TaskList();
     		tl1.setId(tl.getId());
     		tl1.setListTitle(tl.getListTitle());
@@ -57,16 +58,15 @@ public class TaskListController {
     		tl1.setTasks(newTasks);
     		tasksNew.add(tl1);
     	}
-    	
-    		
-
-        return tasksNew;
+        return tasksNew;*/
     }
 
     @GetMapping("/tasklist/{id}")
     public ResponseEntity <TaskList> getTaskListById(
         @PathVariable(value = "id") Long taskListId) throws ResourceNotFoundException {
-        TaskList taskList = taskListRepository.findById(taskListId)
+        
+    	System.out.println("In Getting Task List by ID");
+    	TaskList taskList = taskListRepository.findById(taskListId)
             .orElseThrow(() -> new ResourceNotFoundException("Task list not found :: " + taskListId));
         return ResponseEntity.ok().body(taskList);
     }
@@ -74,6 +74,7 @@ public class TaskListController {
     @PostMapping("/tasklist")
     public TaskList createTaskList(@Valid @RequestBody TaskList taskList) {
     	System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+    	System.out.println("In Creating Task List");
         return taskListRepository.save(taskList);
     }
 

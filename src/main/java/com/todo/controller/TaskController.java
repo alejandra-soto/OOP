@@ -23,7 +23,7 @@ import com.todo.model.TaskList;
 import com.todo.repository.TaskListRepository;
 import com.todo.repository.TaskRepository;
 
-@CrossOrigin(origins = "http://localhost:4200")
+//@CrossOrigin(origins = "http://localhost:4200")
 @RestController 
 @RequestMapping("/")
 public class TaskController {
@@ -35,8 +35,12 @@ public class TaskController {
     private TaskListRepository taskListRepository;
 
 	@GetMapping("/tasklist/{taskListId}/tasks")
-    public List <Task> getAllTasksByTaskList(@PathVariable(value = "taskListId") Long taskListId) {
-        //return taskRepository.findByTaskListId(taskListId);
+    public List <Task> getTasksByTaskListId(@PathVariable(value = "taskListId") Long taskListId) {
+        return taskRepository.findByTaskListId(taskListId);
+		
+		
+		
+		/*System.out.println("In Getting All Tasks by ListID");
 		List<Task> tasks = taskRepository.findByTaskListId(taskListId);
 		ArrayList<Task> arr = new ArrayList<>();
 		
@@ -58,15 +62,21 @@ public class TaskController {
 		
 		System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
     	System.out.println(rTask.toString());
-    	return arr;
+    	return arr;*/
     	
     }
 
     @PostMapping("/tasklist/{taskListId}/tasks")
     public Task createTask(@PathVariable(value = "taskListId") Long taskListId,
         @Valid @RequestBody Task task) throws ResourceNotFoundException {
+    	return taskListRepository.findById(taskListId).map(taskList -> {
+            task.setTaskList(taskList);
+            return taskRepository.save(task);
+        }).orElseThrow(() -> new ResourceNotFoundException("TaskListId " + taskListId + " not found"));
+		
     	
-    	System.out.println("In Creating Tassks");
+    	/*
+    	System.out.println("In Creating Tasks");
     	Task t = null;
     	Optional<TaskList> taskList = taskListRepository.findById(taskListId);
     	if(taskList == null) {
@@ -95,8 +105,10 @@ public class TaskController {
         	System.out.println(rTask.toString());
     	
     	return rTask;
-    	
+    	*/
 		/*
+		 * 
+		 * 
 		 * return taskListRepository.findById(taskListId).map(taskList -> {
 		 * task.setTaskList(taskList); return taskRepository.save(task);
 		 * }).orElseThrow(() -> new ResourceNotFoundException("task list not found"));

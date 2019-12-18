@@ -24,11 +24,11 @@ public class TaskList {
 	private List <Task> tasks;
  
     public TaskList() {
-    	this.tasks = new ArrayList<Task>();
+    	//this.tasks = new ArrayList<Task>();
     }
  
     public TaskList(String listTitle) {
-    	this.tasks = new ArrayList<Task>();
+    	//this.tasks = new ArrayList<Task>();
         this.listTitle = listTitle;
     }
  

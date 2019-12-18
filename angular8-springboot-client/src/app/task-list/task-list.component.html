@@ -1,0 +1,9 @@
+<mat-card>
+  <mat-card-title>{{currentList.listTitle}}</mat-card-title>
+  <mat-selection-list *ngIf="tasks?.length>0">
+    <mat-list-option *ngFor="let task of tasks" [value]="task">
+      {{task.taskTitle}}
+    </mat-list-option>
+  </mat-selection-list>
+  <button mat-raised-button [routerLink]="['/addtask',currentList.id]">New Task</button>
+</mat-card>
