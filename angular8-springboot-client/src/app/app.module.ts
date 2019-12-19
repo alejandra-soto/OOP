@@ -11,7 +11,7 @@ import { CreateTaskComponent } from './create-task/create-task.component';
 import { TaskListComponent } from './task-list/task-list.component';
 import { CreateListComponent } from './create-list/create-list.component';
 import { CategoryListComponent } from './category-list/category-list.component'
-
+import { LocationStrategy, HashLocationStrategy } from '../../node_modules/@angular/common';
 
 @NgModule({
   declarations: [
@@ -34,7 +34,7 @@ import { CategoryListComponent } from './category-list/category-list.component'
     BrowserAnimationsModule,
     MatTableModule
   ],
-  providers: [],
+  providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,8 +1,6 @@
 package com.todo.model;
 
-import java.util.ArrayList;
 import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -24,11 +22,9 @@ public class TaskList {
 	private List <Task> tasks;
  
     public TaskList() {
-    	//this.tasks = new ArrayList<Task>();
     }
  
     public TaskList(String listTitle) {
-    	//this.tasks = new ArrayList<Task>();
         this.listTitle = listTitle;
     }
  

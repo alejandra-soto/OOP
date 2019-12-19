@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class TaskService {
   private api ='/todo/tasklist';
-  private baseUrl = 'http://localhost:8080' + this.api;
+  private baseUrl = 'http://todolistapplication-env.zai5j9k4bk.us-west-1.elasticbeanstalk.com:8080' + this.api;
 
   constructor(private http: HttpClient) {   }
   // get task list under a chosen list
