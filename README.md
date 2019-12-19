@@ -14,14 +14,13 @@ Bootstrap, npm, and JQuery.
 I deployed my application using AWS Beanstalk on an EC2 server. 
 
 Requirements:
--Single Page Application (SPA): The Angular frontend takes care of the 
+-Single Page Application (SPA)
 
--Model-View-Controller (MVC) design pattern: 
+-Model-View-Controller (MVC) design pattern
 
--Object-relational mapping (ORM) technique for database management: 
+-Object-relational mapping (ORM) technique for database management
 
--Dependency injection: 
+-Dependency injection
 
--Use tokens for authentication: I integrated Google Sign-In in my application, which manages the token lifecycle and uses Google 
-APIs with OAuth 2.0 authorization. 
+-Use tokens for authentication
 
